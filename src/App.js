@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import Layout from "./Pages/Layout";
+import Coverletter from "./Pages/Coverletter";
+import Download from "./Pages/Download";
+import GrammarCheck from "./Pages/GrammarCheck";
+import Resume from "./Pages/Resume";
+import Sop from "./Pages/Sop";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Layout />
+      <Routes>
+        <Route path="/" element={<Resume />}></Route>
+        <Route path="/coverLetter" element={<Coverletter />}></Route>
+        <Route path="/sop" element={<Sop />}></Route>
+        <Route path="/download" element={<Download />}></Route>
+        <Route path="/grammarCheck" element={<GrammarCheck />}></Route>
+      </Routes>
+    </>
   );
 }
 
