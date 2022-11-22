@@ -1,7 +1,13 @@
 import React, { useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { addphotoInfo } from "../../Reducers/UploadPhoto";
 function UploadPhoto(props) {
+
+  const dispatch = useDispatch();
+  const {photoData} = useSelector(state => state.uploadPhoto);
+  console.log(photoData);
   const hiddenFileInput = useRef(null);
   const [image, setImage] = useState({});
 
@@ -19,7 +25,7 @@ function UploadPhoto(props) {
 
   const handleUpload = (e) => {
     e.preventDefault();
-    console.log(image);
+    dispatch(addphotoInfo(image.preview));
   };
   return (
     <>

@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { addAboutyouInfo } from "../../Reducers/AboutYou";
 
 function AboutYou(props) {
+  const dispatch = useDispatch();
+  const {aboutyouData} = useSelector(state => state.aboutYou);
+  console.log(aboutyouData);
   const [aboutYou, setAboutYou] = useState([]);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -11,7 +16,8 @@ function AboutYou(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(aboutYou);
+    dispatch(addAboutyouInfo(aboutYou));
+
   };
   return (
     <>

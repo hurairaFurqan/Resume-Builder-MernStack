@@ -1,47 +1,33 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "react-bootstrap";
-import months from "../Data/months.json";
+import months from '../../Data/months.json';
+import years from '../../Data/years.json';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import years from "../Data/years.json";
-import { useDispatch } from "react-redux";
-import { addExperienceInfo } from "../../Reducers/Experience";
-
-// function WorkForm({jobTitle = ''}) {
-function WorkForm(props) {
-  const dispatch = useDispatch();
-
-   const { id, jobTitle, companyName } = props;
-   const [workFormData, setWorkFormData] = useState({
-    jobTitle: jobTitle || '',
-    companyName: companyName || '',
-   });
-    console.log(workFormData);
+function EducationForm(props) {
+  const [educationFormData, setEducationFormData] = useState([]);
   const handleChange = (e) => {
-    if (e.target.name === "jobTitle" && (!jobTitle)) {
-      setWorkFormData((values) => ({ ...values, [e.target.name]: jobTitle }));
-    }
     const { name, value } = e.target;
-    setWorkFormData((values) => ({ ...values, [name]: value }));
+    setEducationFormData((values) => ({ ...values, [name]: value }));
   };
 
   const handleCheckBox = (e) => {
-    setWorkFormData((values) => ({
+    setEducationFormData((values) => ({
       ...values,
       [e.target.name]: e.target.checked,
     }));
   };
 
   const handleCheckedDisableFields = () => {
-    if (workFormData.isPresent === true) {
+    if (educationFormData.isPresent === true) {
       console.log("is present true");
-      if (workFormData.endMonth || workFormData.endYear) {
+      if (educationFormData.endMonth || educationFormData.endYear) {
         console.log("in approved conditions");
-        setWorkFormData((current) => {
+        setEducationFormData((current) => {
           const { endMonth, endYear, ...rest } = current;
           console.log("rest is:", rest);
           return rest;
@@ -58,9 +44,7 @@ function WorkForm(props) {
     e.preventDefault();
     // if check is enabled then it will delete end month and end year from state
     handleCheckedDisableFields();
-    console.log("work form data in work form", workFormData);
-
-    dispatch(addExperienceInfo({ workFormData: workFormData, id: id }));
+    console.log("work form data in work form", educationFormData);
   };
   return (
     <>
@@ -69,29 +53,39 @@ function WorkForm(props) {
           <div className="container-fluid d-flex flex-column mb-4">
             <TextField
               id="standard-basic"
-              label="Job Title"
-              name="jobTitle"
+              label="Education with specialization"
+              name="degreeName"
               className="mb-2 mt-3"
               variant="standard"
-              value={workFormData.jobTitle}
+              value={educationFormData.degreeName || ""}
               onChange={(e) => handleChange(e)}
             />
             <TextField
               id="standard-basic"
-              label="Company Name"
-              name="companyName"
+              label="Institue Name"
+              name="instituteName"
               className="mb-2 mt-3"
               variant="standard"
-              value={workFormData.companyName}
+              value={educationFormData.instituteName || ""}
               onChange={(e) => handleChange(e)}
             />
             <TextField
               id="standard-basic"
-              label="Location"
-              name="workLocation"
+              label="Percentage/CGPA(eg. 80% / 9.0 CGPA)"
+              name="percentage"
               className="mb-2 mt-3"
               variant="standard"
-              value={workFormData.workLocation || ""}
+              value={educationFormData.percentage || ""}
+              onChange={(e) => handleChange(e)}
+            />
+
+            <TextField
+              id="standard-basic"
+              label="Location (mention City & State only)"
+              name="location"
+              className="mb-2 mt-3"
+              variant="standard"
+              value={educationFormData.location || ""}
               onChange={(e) => handleChange(e)}
             />
 
@@ -102,7 +96,7 @@ function WorkForm(props) {
                   labelId="startMonth"
                   id="startMonth"
                   name="startMonth"
-                  value={workFormData.startMonth || "January"}
+                  value={educationFormData.startMonth || "January"}
                   label="startMonth"
                   onChange={(e) => handleChange(e)}
                 >
@@ -122,7 +116,7 @@ function WorkForm(props) {
                   id="startYear"
                   label="startYear"
                   name="startYear"
-                  value={workFormData.startYear || "2012"}
+                  value={educationFormData.startYear || "2012"}
                   onChange={(e) => handleChange(e)}
                 >
                   {years.map((y) => {
@@ -141,10 +135,10 @@ function WorkForm(props) {
                 <InputLabel id="endMonth">End Month</InputLabel>
                 <Select
                   labelId="endMonth"
-                  disabled={workFormData.isPresent === true ? true : false}
+                  disabled={educationFormData.isPresent === true ? true : false}
                   id="endMonth"
                   name="endMonth"
-                  value={workFormData.endMonth || "December"}
+                  value={educationFormData.endMonth || "December"}
                   label="endMonth"
                   onChange={(e) => handleChange(e)}
                 >
@@ -161,11 +155,11 @@ function WorkForm(props) {
                 <InputLabel id="endYear">Year</InputLabel>
                 <Select
                   labelId="endYear"
-                  disabled={workFormData.isPresent === true ? true : false}
+                  disabled={educationFormData.isPresent === true ? true : false}
                   id="endYear"
                   label="endYear"
                   name="endYear"
-                  value={workFormData.endYear || "2023"}
+                  value={educationFormData.endYear || "2023"}
                   onChange={(e) => handleChange(e)}
                 >
                   {years.map((y) => {
@@ -198,7 +192,7 @@ function WorkForm(props) {
               className="mb-3"
               variant="outlined"
               multiline
-              value={workFormData.description || ""}
+              value={educationFormData.description || ""}
               onChange={(e) => handleChange(e)}
             />
           </div>
@@ -211,4 +205,4 @@ function WorkForm(props) {
   );
 }
 
-export default WorkForm;
+export default EducationForm;

@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "react-bootstrap";
-
+import {useDispatch, useSelector} from 'react-redux';
+import { addContactInfo } from "../../Reducers/ContactDetails";
 function ContactDetails(props) {
+  const dispatch = useDispatch(); 
+
+  const {contactData} = useSelector(state => state.contactDetails);
+  console.log(contactData);
   const [contactDetails, setContactDetails] = useState([]);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -11,7 +16,7 @@ function ContactDetails(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(contactDetails);
+    dispatch(addContactInfo(contactDetails));
   };
 
   return (

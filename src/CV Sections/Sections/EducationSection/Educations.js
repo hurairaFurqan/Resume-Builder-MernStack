@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { Button, Stack } from "react-bootstrap";
 import TextField from "@mui/material/TextField";
-import Popup from "../../Utilities/Popup";
-import WorkExperienceItem from "../Components/WorkExperienceItem";
-import { useSelector } from "react-redux";
 
-function Experience(props) {
-  const { experienceData } = useSelector((state) => state.experience);
+import EducationItems from "./EducationItems";
+import Popup from "../../../Utilities/Popup";
+
+function Educations(props) {
   const [popupInfo, setPopupInfo] = useState([]);
-  const [newExperience, setNewExperience] = useState([]);
-  console.log(newExperience);
+  const [newEducation, setNewEducation] = useState([]);
   const [trigger, setTrigger] = useState(false);
 
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPopupInfo((values) => ({ ...values, [name]: value }));
@@ -24,52 +23,47 @@ function Experience(props) {
     <>
       <div className="container mb-4">
         <p style={{ color: "#F2A654" }}>
-          Enter your work experience in chronological order
+          Enter your Education in chronological order
         </p>
 
-        {newExperience !== null && (
+        {newEducation !== null && (
           <Stack gap={4}>
-            {newExperience.map((item) => {
+            {newEducation.map((item) => {
               return (
-                <WorkExperienceItem
+                <EducationItems
                   key={item.id}
                   {...item}
-                ></WorkExperienceItem>
+                ></EducationItems>
               );
             })}
           </Stack>
         )}
 
         <div className="d-flex flex-row justify-content-center mt-3">
-          <Button onClick={handleNewExp}>Add Work Experience</Button>
+          <Button onClick={handleNewExp}>Add Education</Button>
         </div>
 
         <div>
-          <Popup
-            trigger={trigger}
-            setTrigger={setTrigger}
-            experienceData={popupInfo}
-            setNewExperience={setNewExperience}
-          >
+          <Popup trigger={trigger} setTrigger={setTrigger} educationData = {popupInfo} setNewEducation = {setNewEducation} >
             <h2>Resume Builder</h2>
             <p>Please enter information accordingly</p>
             <div className="container-fluid d-flex flex-column mb-4">
               <TextField
                 id="standard-basic"
-                label="Job Title"
-                name="jobTitle"
+                label="Education with specialization"
+                name="degreeName"
                 className="mb-2 mt-3"
                 variant="standard"
-                value={popupInfo.jobTitle || ""}
+                value={popupInfo.degreeName || ""}
                 onChange={(e) => handleChange(e)}
               />
               <TextField
                 id="standard-basic"
-                label="Company Name"
-                name="companyName"
+                label="Institue Name"
+                name="instituteName"
                 className="mb-2 mt-3"
                 variant="standard"
-                value={popupInfo.companyName || ""}
+                value={popupInfo.instituteName || ""}
                 onChange={(e) => handleChange(e)}
               />
             </div>
@@ -79,4 +73,4 @@ function Experience(props) {
     </>
   );
 }
-export default Experience;
+export default Educations;

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Collapse } from "react-bootstrap";
-import ImageThumbnail from "../../Utilities/ImageThumbnail";
+import ImageThumbnail from "../../../Utilities/ImageThumbnail";
 
-function WorkExperienceItem(props) {
-  const { id, jobTitle, companyName, COMPONENT } = props;
+
+function EducationItems(props) {
+  const { id, degreeName, instituteName, COMPONENT } = props;
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -15,21 +16,21 @@ function WorkExperienceItem(props) {
           aria-controls="form-component-control"
           style={{ backgroundColor: "#ededed" }}
         >
-          <div className="d-flex justify-content-center">
-          <ImageThumbnail name={jobTitle}></ImageThumbnail>
+          <div className="ms-3">
+          <ImageThumbnail name={degreeName}></ImageThumbnail>
           </div>
-          <span style={{ fontSize: "1.2rem" }}>{jobTitle}</span>
+          <span style={{ fontSize: "1.2rem" }}>{degreeName}</span>
           <br></br>
-          <span style={{ fontSize: ".8rem" }}>{companyName}</span>
+          <span style={{ fontSize: ".8rem" }}>{instituteName}</span>
         </button>
 
         <Collapse in={open}>
           <div id="form-component-control">
-            <COMPONENT key={id} {...props}/>
+            <COMPONENT key={id} />
           </div>
         </Collapse>
       </div>
     </>
   );
 }
-export default WorkExperienceItem;
+export default EducationItems;

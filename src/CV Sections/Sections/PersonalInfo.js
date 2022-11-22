@@ -4,8 +4,13 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { addInfo } from "../../Reducers/Personalnfo";
 
 function PersonalInfo(props) {
+  const { personalData } = useSelector((state) => state.personalInfo);
+  console.log("personal Info fetched from redux store", personalData);
+  const dispatch = useDispatch();
   const [personalInfo, setPersonalInfo] = useState([]);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -14,13 +19,13 @@ function PersonalInfo(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(personalInfo);
+    dispatch(addInfo(personalInfo));
   };
 
   return (
     <>
       <div className="container">
-      <p style={{color: "#F2A654"}}>Enter your personal Details</p>
+        <p style={{ color: "#F2A654" }}>Enter your personal Details</p>
         <form onSubmit={handleSubmit}>
           <div className="row mt-4 mb-4">
             <div className="col-sm-6">
@@ -84,8 +89,6 @@ function PersonalInfo(props) {
                 <MenuItem value={"Divorced"}>Divorced</MenuItem>
               </Select>
             </div>
-
-            
           </div>
           <div className="mb-4">
             <TextField
@@ -102,6 +105,8 @@ function PersonalInfo(props) {
           </div>
         </form>
       </div>
+
+      <p>{`data is ${personalData}`}</p>
     </>
   );
 }
