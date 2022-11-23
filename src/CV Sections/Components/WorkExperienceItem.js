@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Collapse } from "react-bootstrap";
 import ImageThumbnail from "../../Utilities/ImageThumbnail";
+import WorkForm from "./WorkForm";
 
 function WorkExperienceItem(props) {
-  const { id, jobTitle, companyName, COMPONENT } = props;
+  const { id, jobTitle, companyName } = props;
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -25,7 +26,7 @@ function WorkExperienceItem(props) {
 
         <Collapse in={open}>
           <div id="form-component-control">
-            <COMPONENT key={id} {...props}/>
+            <WorkForm key={id} {...props}/>
           </div>
         </Collapse>
       </div>

@@ -1,5 +1,4 @@
 import { Button } from "react-bootstrap";
-import WorkForm from "../CV Sections/Components/WorkForm";
 import EducationForm from "../CV Sections/Sections/EducationSection/EducationForm";
 import "./style.css";
 
@@ -27,7 +26,6 @@ const Popup = (props) => {
         ...exp,
         {
           id: exp.length + 1,
-          COMPONENT: WorkForm,
           jobTitle: jobTitle,
           companyName: companyName,
         },

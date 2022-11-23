@@ -4,14 +4,13 @@ import TextField from "@mui/material/TextField";
 import Popup from "../../Utilities/Popup";
 import WorkExperienceItem from "../Components/WorkExperienceItem";
 import { useSelector } from "react-redux";
-
 function Experience(props) {
   const { experienceData } = useSelector((state) => state.experience);
   const [popupInfo, setPopupInfo] = useState([]);
-  const [newExperience, setNewExperience] = useState([]);
-  console.log(newExperience);
-  const [trigger, setTrigger] = useState(false);
+  const [newExperience, setNewExperience] = useState(experienceData);
 
+  console.log('work experience from redux store', experienceData);
+  const [trigger, setTrigger] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPopupInfo((values) => ({ ...values, [name]: value }));
@@ -55,6 +54,7 @@ function Experience(props) {
             <p>Please enter information accordingly</p>
             <div className="container-fluid d-flex flex-column mb-4">
               <TextField
+                required
                 id="standard-basic"
                 label="Job Title"
                 name="jobTitle"
@@ -64,6 +64,7 @@ function Experience(props) {
                 onChange={(e) => handleChange(e)}
               />
               <TextField
+                required
                 id="standard-basic"
                 label="Company Name"
                 name="companyName"

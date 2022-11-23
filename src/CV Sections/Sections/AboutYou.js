@@ -7,8 +7,10 @@ import { addAboutyouInfo } from "../../Reducers/AboutYou";
 function AboutYou(props) {
   const dispatch = useDispatch();
   const {aboutyouData} = useSelector(state => state.aboutYou);
-  console.log(aboutyouData);
-  const [aboutYou, setAboutYou] = useState([]);
+  const [aboutYou, setAboutYou] = useState({
+    resumeHeadline: aboutyouData.resumeHeadline,
+    summary: aboutyouData.summary,
+  });
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAboutYou((values) => ({ ...values, [name]: value }));

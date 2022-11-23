@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "react-bootstrap";
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { addContactInfo } from "../../Reducers/ContactDetails";
 function ContactDetails(props) {
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
-  const {contactData} = useSelector(state => state.contactDetails);
-  console.log(contactData);
-  const [contactDetails, setContactDetails] = useState([]);
+  const { contactData } = useSelector((state) => state.contactDetails);
+  const [contactDetails, setContactDetails] = useState({
+    mobileNumber: contactData.mobileNumber || "",
+    address: contactData.address || "",
+    email: contactData.email || "",
+    additionalUrl: contactData.additionalUrl || "",
+    linkedinUrl: contactData.linkedinUrl || "",
+    githubUrl: contactData.githubUrl || "",
+  });
   const handleChange = (e) => {
     const { name, value } = e.target;
     setContactDetails((values) => ({ ...values, [name]: value }));
@@ -22,7 +28,7 @@ function ContactDetails(props) {
   return (
     <>
       <div className="container">
-      <p style={{color: "#F2A654"}}>Enter your Contact Details</p>
+        <p style={{ color: "#F2A654" }}>Enter your Contact Details</p>
         <form onSubmit={handleSubmit}>
           <div className="container-fluid d-flex flex-column mt-4 mb-4">
             <TextField

@@ -15,14 +15,21 @@ import { addExperienceInfo } from "../../Reducers/Experience";
 function WorkForm(props) {
   const dispatch = useDispatch();
 
-   const { id, jobTitle, companyName } = props;
-   const [workFormData, setWorkFormData] = useState({
-    jobTitle: jobTitle || '',
-    companyName: companyName || '',
-   });
-    console.log(workFormData);
+  const { id, jobTitle, companyName } = props;
+  const [workFormData, setWorkFormData] = useState({
+    id: id,
+    jobTitle: jobTitle || "",
+    companyName: companyName || "",
+    startMonth: props.startMonth || "",
+    endMonth: props.endMonth || "",
+    startYear: props.startYear || "",
+    endYear: props.endYear || "",
+    workLocation: props.workLocation || "",
+    isPresent: props.isPresent || "",
+    description: props.description || "",
+  });
   const handleChange = (e) => {
-    if (e.target.name === "jobTitle" && (!jobTitle)) {
+    if (e.target.name === "jobTitle" && !jobTitle) {
       setWorkFormData((values) => ({ ...values, [e.target.name]: jobTitle }));
     }
     const { name, value } = e.target;
@@ -36,31 +43,9 @@ function WorkForm(props) {
     }));
   };
 
-  const handleCheckedDisableFields = () => {
-    if (workFormData.isPresent === true) {
-      console.log("is present true");
-      if (workFormData.endMonth || workFormData.endYear) {
-        console.log("in approved conditions");
-        setWorkFormData((current) => {
-          const { endMonth, endYear, ...rest } = current;
-          console.log("rest is:", rest);
-          return rest;
-        });
-      } else {
-        console.log("no end month and year");
-      }
-    } else {
-      console.log("check is not true");
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if check is enabled then it will delete end month and end year from state
-    handleCheckedDisableFields();
-    console.log("work form data in work form", workFormData);
-
-    dispatch(addExperienceInfo({ workFormData: workFormData, id: id }));
+    dispatch(addExperienceInfo(workFormData));
   };
   return (
     <>
@@ -68,24 +53,27 @@ function WorkForm(props) {
         <form onSubmit={handleSubmit}>
           <div className="container-fluid d-flex flex-column mb-4">
             <TextField
+              required
               id="standard-basic"
               label="Job Title"
               name="jobTitle"
               className="mb-2 mt-3"
               variant="standard"
-              value={workFormData.jobTitle}
+              value={workFormData.jobTitle || ""}
               onChange={(e) => handleChange(e)}
             />
             <TextField
+              required
               id="standard-basic"
               label="Company Name"
               name="companyName"
               className="mb-2 mt-3"
               variant="standard"
-              value={workFormData.companyName}
+              value={workFormData.companyName || ""}
               onChange={(e) => handleChange(e)}
             />
             <TextField
+              required
               id="standard-basic"
               label="Location"
               name="workLocation"
@@ -99,6 +87,7 @@ function WorkForm(props) {
               <div className="col-sm-6">
                 <InputLabel id="startMonth">Start Month</InputLabel>
                 <Select
+                  required
                   labelId="startMonth"
                   id="startMonth"
                   name="startMonth"
@@ -118,6 +107,7 @@ function WorkForm(props) {
               <div className="col-sm-6">
                 <InputLabel id="startYear">Year</InputLabel>
                 <Select
+                  required
                   labelId="startYear"
                   id="startYear"
                   label="startYear"
@@ -140,6 +130,7 @@ function WorkForm(props) {
               <div className="col-sm-6">
                 <InputLabel id="endMonth">End Month</InputLabel>
                 <Select
+                  required
                   labelId="endMonth"
                   disabled={workFormData.isPresent === true ? true : false}
                   id="endMonth"
@@ -182,6 +173,7 @@ function WorkForm(props) {
                   <Checkbox
                     defaultChecked={false}
                     label="Present"
+                    value={workFormData.isPresent || "false"}
                     name="isPresent"
                     inputProps={{ "aria-label": "controlled" }}
                     onChange={(e) => handleCheckBox(e)}
@@ -193,6 +185,7 @@ function WorkForm(props) {
             </div>
 
             <TextField
+              required
               label="Description"
               name="description"
               className="mb-3"

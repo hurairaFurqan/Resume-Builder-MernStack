@@ -9,9 +9,16 @@ import { addInfo } from "../../Reducers/Personalnfo";
 
 function PersonalInfo(props) {
   const { personalData } = useSelector((state) => state.personalInfo);
-  console.log("personal Info fetched from redux store", personalData);
   const dispatch = useDispatch();
-  const [personalInfo, setPersonalInfo] = useState([]);
+  const [personalInfo, setPersonalInfo] = useState({
+    firstName: personalData.firstName || '',
+    lastName: personalData.lastName || '',
+    dob: personalData.dob || '',
+    gender: personalData.gender || '',
+    martialStatus: personalData.martialStatus || '',
+    nationality: personalData.nationality || '',
+
+  });
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPersonalInfo((values) => ({ ...values, [name]: value }));
@@ -105,8 +112,6 @@ function PersonalInfo(props) {
           </div>
         </form>
       </div>
-
-      <p>{`data is ${personalData}`}</p>
     </>
   );
 }

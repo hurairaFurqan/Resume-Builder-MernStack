@@ -7,19 +7,26 @@ export const Experience = createSlice({
   },
   reducers: {
     addExperienceInfo: (state, action) => {
-      console.log("in add info reducer", action.payload);
-
       const { id } = action.payload;
+
+      const data = action.payload;
+
+      if (data.isPresent === true) {
+        data.endMonth = "";
+        data.endYear = "";
+      }
 
       if (!state.experienceData.find((data) => data.id === id)) {
         console.log(`didn't find required ID`);
-        state.experienceData.push({ id, data: action.payload.workFormData });
+        state.experienceData.push(data);
       } else {
-        state.experienceData = state.experienceData.map((data) => {
-          if (data?.id === id) {
-            return { ...data, data: action.payload.workFormData };
+        state.experienceData = state.experienceData.map((item) => {
+          if (item?.id === id) {
+            console.log("find the required id", id);
+            console.log("data from payload", data);
+            return { ...item, ...data };
           } else {
-            return data;
+            return item;
           }
         });
       }
