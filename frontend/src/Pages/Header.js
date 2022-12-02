@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import { green } from "@mui/material/colors";
 import Popup from "../Utilities/Popup";
@@ -10,10 +11,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSignIn, getSignUp } from "../Store/AuthRequests";
 import { downloadReumse, logout } from "../Reducers/AuthRequests";
 
-function Layout() {
+function Layout(props) {
   const dispatch = useDispatch();
 
-  const { loading, userInfo, userToken, error, success } = useSelector(
+  const { handleSuccess } = props;
+
+  const { loading, userInfo, success } = useSelector(
     (state) => state.authRequests
   );
   const [signInData, setSignInData] = useState({});
@@ -21,8 +24,21 @@ function Layout() {
   const [signInModal, setSignInModal] = useState(false);
   const [signUpModal, setSignUpModal] = useState(false);
 
+  useEffect(() => {
+    console.log("use Effect init in header");
+    handleSuccess(success);
+  }, [success]);
   const buttonSx = {
     ...(success && {
+      bgcolor: green[500],
+      "&:hover": {
+        bgcolor: green[700],
+      },
+    }),
+  };
+
+  const signInSx = {
+    ...(userInfo.name && {
       bgcolor: green[500],
       "&:hover": {
         bgcolor: green[700],
@@ -96,14 +112,6 @@ function Layout() {
                   Download
                 </Nav.Link>
 
-                <Button
-                  className="ms-2"
-                  style={{ backgroundColor: "#62A8EA", color: "white" }}
-                  onClick={() => openSignUp(true)}
-                >
-                  Sign Up
-                </Button>
-
                 {userInfo.name ? (
                   <NavDropdown title={userInfo.name} id="username">
                     <NavDropdown.Item onClick={handleLogout}>
@@ -111,14 +119,24 @@ function Layout() {
                     </NavDropdown.Item>
                   </NavDropdown>
                 ) : (
-                  <Button
-                    className="ms-2"
-                    variant="contained"
-                    style={{ backgroundColor: "#13b493", color: "white" }}
-                    onClick={() => openSignIn(true)}
-                  >
-                    Sign In
-                  </Button>
+                  <>
+                    <Button
+                      className="ms-2"
+                      style={{ backgroundColor: "#62A8EA", color: "white" }}
+                      onClick={() => openSignUp(true)}
+                    >
+                      Sign Up
+                    </Button>
+
+                    <Button
+                      className="ms-2"
+                      variant="contained"
+                      style={{ backgroundColor: "#13b493", color: "white" }}
+                      onClick={() => openSignIn(true)}
+                    >
+                      Sign In
+                    </Button>
+                  </>
                 )}
               </Nav>
             </Navbar.Collapse>
@@ -158,29 +176,31 @@ function Layout() {
             </div>
 
             <div>
-              <Button
-                variant="contained"
-                sx={buttonSx}
-                type={"submit"}
-                disabled={loading}
-              >
-                Login
-              </Button>
-              {loading && (
-                <CircularProgress
-                  size={24}
-                  sx={{
-                    color: green[500],
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    marginTop: "-12px",
-                    marginLeft: "-12px",
-                  }}
-                />
-              )}
-
-              {userInfo.name ? <p>{userInfo.name} login successfull</p> : <></>}
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ m: 1, position: "relative" }}>
+                  <Button
+                    variant="contained"
+                    sx={signInSx}
+                    disabled={loading}
+                    onClick={handleSignInSubmit}
+                  >
+                    Login
+                  </Button>
+                  {loading && (
+                    <CircularProgress
+                      size={24}
+                      sx={{
+                        color: green[500],
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        marginTop: "-12px",
+                        marginLeft: "-12px",
+                      }}
+                    />
+                  )}
+                </Box>
+              </Box>
             </div>
           </div>
         </form>
@@ -233,6 +253,7 @@ function Layout() {
             <div>
               <Button
                 variant="contained"
+                className="mt-2"
                 sx={buttonSx}
                 type={"submit"}
                 disabled={loading}
@@ -251,12 +272,6 @@ function Layout() {
                     marginLeft: "-12px",
                   }}
                 />
-              )}
-
-              {success === true ? (
-                <p>you have sign Up successfully Kindly Login now</p>
-              ) : (
-                <></>
               )}
             </div>
           </div>

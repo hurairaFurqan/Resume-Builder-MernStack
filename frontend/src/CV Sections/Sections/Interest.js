@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addInterestInfo } from "../../Reducers/Interest";
+import { createInterest } from "../../Store/InterestRequests";
 
 function Interest(props) {
   const dispatch = useDispatch();
-  const {interestData} = useSelector(state => state.interest);
+  const { interestData } = useSelector((state) => state.interest);
   const [interest, setInterest] = useState({
-    description : interestData.description || '',
+    description: interestData.description,
   });
+
+  useEffect(() => {
+    setInterest({
+      description: interestData.description,
+    });
+  }, [interestData]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInterest((values) => ({ ...values, [name]: value }));
@@ -17,7 +24,7 @@ function Interest(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addInterestInfo(interest))
+    dispatch(createInterest(interest));
   };
   return (
     <>

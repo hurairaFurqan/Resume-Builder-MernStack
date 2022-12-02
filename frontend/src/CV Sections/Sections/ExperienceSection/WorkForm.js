@@ -9,7 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import months from "../../Data/months.json";
 import years from "../../Data/years.json";
 import { useDispatch } from "react-redux";
-import { addExperienceInfo } from "../../../Reducers/Experience";
+import { createExperience } from "../../../Store/experienceRequests";
 
 // function WorkForm({jobTitle = ''}) {
 function WorkForm(props) {
@@ -45,7 +45,7 @@ function WorkForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addExperienceInfo(workFormData));
+    dispatch(createExperience(workFormData));
   };
   return (
     <>

@@ -5,7 +5,7 @@ const interestModel = require("../model/interestModel");
 exports.createInterest = catchAsync(async (req, res, next) => {
   const { description } = req.body;
 
-  const interest = await interestModel.find({ user: req.user._id });
+  const interest = await interestModel.findOne({ user: req.user._id });
   if (!interest) {
     const newInterest = new interestModel({
       description: description,
@@ -34,13 +34,11 @@ exports.createInterest = catchAsync(async (req, res, next) => {
 });
 
 exports.getInterest = catchAsync(async (req, res, next) => {
-  const personalInfo = await interestModel.find({ user: req.user._id });
+  const interestInfo = await interestModel.findOne({ user: req.user._id });
 
-  if (!personalInfo) {
+  if (!interestInfo) {
     return next(new AppError("no Interest Data found", 404));
   }
 
-  return res.status(200).json(personalInfo);
+  return res.status(200).json(interestInfo);
 });
-
-exports.updateInterest = catchAsync(async (req, res, next) => {});

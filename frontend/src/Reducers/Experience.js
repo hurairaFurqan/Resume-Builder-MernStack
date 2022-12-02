@@ -1,46 +1,46 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createExperience, getExperience } from "../Store/experienceRequests";
 
 export const Experience = createSlice({
   name: "experience",
   initialState: {
-    experienceData: [],
+    experienceData: {},
+    loading: false,
+    error: null,
+    success: false,
   },
-  reducers: {
-    addExperienceInfo: (state, action) => {
-      const { id } = action.payload;
 
-      const data = action.payload;
+  extraReducers: (builder) => {
+    // create Experience
+    builder.addCase(createExperience.fulfilled, (state) => {
+      state.loading = false;
+      state.success = true;
+    });
+    builder.addCase(createExperience.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+    builder.addCase(createExperience.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
 
-      if (data.isPresent === true) {
-        data.endMonth = "";
-        data.endYear = "";
-      }
+    // Get Experience
 
-      if (!state.experienceData.find((data) => data.id === id)) {
-        state.experienceData.push(data);
-      } else {
-        state.experienceData = state.experienceData.map((item) => {
-          if (item?.id === id) {
-            return { ...item, ...data };
-          } else {
-            return item;
-          }
-        });
-      }
-    },
-
-    removeExperienceInfo: (state, action) => {
-      const { id } = action.payload;
-
-      // state.experienceData = state.experienceData.filter(
-      //   (item) => item.id !== id
-      // );
-
-      state.experienceData.delete(id);
-    },
+    builder.addCase(getExperience.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.experienceData = { ...payload };
+    });
+    builder.addCase(getExperience.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.experienceData = {};
+      state.error = payload;
+    });
+    builder.addCase(getExperience.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
   },
 });
-
-export const { addExperienceInfo, removeExperienceInfo } = Experience.actions;
 
 export default Experience.reducer;
