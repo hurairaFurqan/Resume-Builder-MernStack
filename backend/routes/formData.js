@@ -4,6 +4,7 @@ const personalInfoController = require("../controllers/personalInfoController");
 const contactDetailsController = require("../controllers/contactDetailsController");
 const aboutYouController = require("../controllers/aboutYouController");
 const interestController = require("../controllers/interestController");
+const experienceController = require("../controllers/experienceController");
 
 const protect = require("../midllewares/protect");
 
@@ -25,5 +26,10 @@ router
   .route("/interest")
   .post(interestController.createInterest)
   .get(interestController.getInterest);
+
+router
+  .route("/experience")
+  .post(experienceController.createExperience)
+  .get(experienceController.getExperience);
 
 module.exports = router;

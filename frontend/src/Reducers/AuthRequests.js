@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSignIn, getSignUp } from "../Store/AuthRequests";
+import { getMe, getSignIn, getSignUp } from "../Store/AuthRequests";
 
 // initialize userToken from local storage
 const userToken = localStorage.getItem("userToken")
@@ -22,6 +22,7 @@ export const AuthRequests = createSlice({
       state.loading = false;
       state.userInfo = { ...payload.person };
       state.userToken = payload.token;
+      state.success = true;
     });
     builder.addCase(getSignIn.rejected, (state, { payload }) => {
       state.loading = false;
@@ -46,6 +47,23 @@ export const AuthRequests = createSlice({
       state.error = payload;
     });
     builder.addCase(getSignUp.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+
+    // Get Me
+
+    builder.addCase(getMe.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      state.userInfo = { ...payload };
+    });
+    builder.addCase(getMe.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.userInfo = {};
+      state.error = payload;
+    });
+    builder.addCase(getMe.pending, (state) => {
       state.loading = true;
       state.error = null;
     });

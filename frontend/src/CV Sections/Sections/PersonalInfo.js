@@ -5,10 +5,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createPersonalInfo,
-  getPersonalInfo,
-} from "../../Store/PersonalInfoRequests";
+import { createPersonalInfo } from "../../Store/PersonalInfoRequests";
 
 function PersonalInfo(props) {
   const { personalData } = useSelector((state) => state.personalInfo);
@@ -21,10 +18,6 @@ function PersonalInfo(props) {
     martialStatus: "",
     nationality: "",
   });
-
-  useEffect(() => {
-    dispatch(getPersonalInfo());
-  }, []);
 
   useEffect(() => {
     setPersonalInfo({

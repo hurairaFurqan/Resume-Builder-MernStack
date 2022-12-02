@@ -11,9 +11,9 @@ function WorkExperienceItem(props) {
   const { id, jobTitle, companyName } = props;
   const [open, setOpen] = useState(false);
 
-  const clearItem = () => {
-    dispatch(removeExperienceInfo(id));
-  }
+  // const clearItem = () => {
+  //   dispatch(removeExperienceInfo(id));
+  // }
   return (
     <>
       
@@ -37,11 +37,11 @@ function WorkExperienceItem(props) {
               <br></br>
               <span style={{ fontSize: ".8rem" }}>{companyName}</span>
             </div>
-            <div className="col-2 d-flex align-items-center">
+            {/* <div className="col-2 d-flex align-items-center">
               <button className="btn" onClick={clearItem}>
                 <ClearIcon fontSize="small"></ClearIcon>
               </button>
-            </div>
+            </div> */}
           </div>
         </button>
 

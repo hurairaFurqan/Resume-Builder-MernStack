@@ -1,30 +1,30 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { API_BASEURL_FORMDATA } from "./Constants";
 import axios from "axios";
 import { getToken } from "../Utilities/Token";
-import { API_BASEURL_AUTH, API_BASEURL_USER } from "./Constants";
 
 
-export const getSignIn = createAsyncThunk(
-  "auth /getSignIn",
-
+export const createInterest = createAsyncThunk(
+  "Interest/create",
   async (values, { rejectWithValue }) => {
     try {
+      const token = getToken();
       // configure header's Content-Type as JSON
       const config = {
         headers: {
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       };
+
       const { data } = await axios.post(
-        `${API_BASEURL_AUTH}/signin`,
+        `${API_BASEURL_FORMDATA}/interest`,
         values,
         config
       );
-      // store user's token in local storage
-      localStorage.setItem("userToken", data.token);
       return data;
     } catch (error) {
       // return custom error message from API if any
+      
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       } else {
@@ -34,18 +34,8 @@ export const getSignIn = createAsyncThunk(
   }
 );
 
-export const getSignUp = createAsyncThunk(
-  "auth/getSignUp",
-  async (data, { rejectWithValue }) => {
-    return await axios
-      .post(`${API_BASEURL_AUTH}/signup`, data)
-      .then((response) => response.data)
-      .catch((error) => rejectWithValue(error.response.data));
-  }
-);
-
-export const getMe = createAsyncThunk(
-  "auth/getMe",
+export const getInterest = createAsyncThunk(
+  "Interest/get",
   async (_, { rejectWithValue }) => {
     try {
       const token = getToken();
@@ -56,7 +46,7 @@ export const getMe = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.get(`${API_BASEURL_USER}/getme`, config);
+      const { data } = await axios.get(`${API_BASEURL_FORMDATA}/interest`, config);
 
       return data;
     } catch (error) {

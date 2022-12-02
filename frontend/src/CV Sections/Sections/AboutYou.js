@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addAboutyouInfo } from "../../Reducers/AboutYou";
+import { createAboutYou } from "../../Store/AboutYouRequests";
 
 function AboutYou(props) {
   const dispatch = useDispatch();
-  const {aboutyouData} = useSelector(state => state.aboutYou);
+  const { aboutyouData } = useSelector((state) => state.aboutYou);
   const [aboutYou, setAboutYou] = useState({
-    resumeHeadline: aboutyouData.resumeHeadline,
-    summary: aboutyouData.summary,
+    resumeHeadline: "",
+    summary: "",
   });
+
+  useEffect(() => {
+    setAboutYou({
+      resumeHeadline: aboutyouData.resumeHeadline,
+      summary: aboutyouData.summary,
+    });
+  }, [aboutyouData]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAboutYou((values) => ({ ...values, [name]: value }));
@@ -18,13 +25,15 @@ function AboutYou(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addAboutyouInfo(aboutYou));
-
+    dispatch(createAboutYou(aboutYou));
   };
   return (
     <>
       <div className="container">
-        <p style={{color: "#F2A654"}}> Enter a brief description of your professional bacground</p>
+        <p style={{ color: "#F2A654" }}>
+          {" "}
+          Enter a brief description of your professional bacground
+        </p>
         <form onSubmit={handleSubmit}>
           <div className="container-fluid d-flex flex-column mt-4 mb-4">
             <TextField

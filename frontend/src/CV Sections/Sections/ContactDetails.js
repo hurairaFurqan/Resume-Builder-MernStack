@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createContactDetails,
-  getContactDetails,
-} from "../../Store/ContactDetailsRequests";
+import { createContactDetails } from "../../Store/ContactDetailsRequests";
 function ContactDetails(props) {
   const dispatch = useDispatch();
 
@@ -18,10 +15,6 @@ function ContactDetails(props) {
     linkedinUrl: "",
     githubUrl: "",
   });
-
-  useEffect(() => {
-    dispatch(getContactDetails());
-  }, []);
 
   useEffect(() => {
     setContactDetails({
