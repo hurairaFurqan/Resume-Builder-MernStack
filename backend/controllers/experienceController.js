@@ -3,15 +3,36 @@ const AppError = require("../utilities/appError");
 const experienceModel = require("../model/experienceModel");
 
 exports.createExperience = catchAsync(async (req, res, next) => {
-  const { experience } = req.body;
-
+  const {
+    id,
+    jobTitle,
+    companyName,
+    workLocation,
+    startMonth,
+    endMonth,
+    startYear,
+    endYear,
+    isPresent,
+    description,
+  } = req.body;
   const experienceDetail = await experienceModel.findOne({
     user: req.user._id,
   });
 
   if (!experienceDetail) {
     const newExperience = new experienceModel({
-      experience,
+      experience: {
+        id,
+        jobTitle,
+        companyName,
+        workLocation,
+        startMonth,
+        endMonth,
+        startYear,
+        endYear,
+        isPresent,
+        description,
+      },
       user: req.user.id,
     });
     try {
@@ -23,9 +44,31 @@ exports.createExperience = catchAsync(async (req, res, next) => {
       status: "Success",
     });
   }
+
+  const newUpdate = await experienceModel
+      .findOne(experienceDetail._id)
+    .findOneAndUpdate(
+      { "experience.$.id": id },
+      { $set: { jobTitle: jobTitle } }
+    );
+  return res.json(newUpdate);
   const updatedExperience = await experienceModel.findOneAndUpdate(
     experienceDetail._id,
-    { experience },
+    {
+      $push: {
+        experience: {
+          jobTitle,
+          companyName,
+          workLocation,
+          startMonth,
+          endMonth,
+          startYear,
+          endYear,
+          description,
+          isPresent,
+        },
+      },
+    },
     { new: true }
   );
   if (!updatedExperience) {

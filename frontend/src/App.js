@@ -12,6 +12,7 @@ import { getAboutYou } from "./Store/AboutYouRequests";
 import { getPersonalInfo } from "./Store/PersonalInfoRequests";
 import { getContactDetails } from "./Store/ContactDetailsRequests";
 import { getInterest } from "./Store/InterestRequests";
+import { getExperience } from "./Store/experienceRequests";
 function App() {
   console.log('app init')
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function App() {
       dispatch(getAboutYou());
       dispatch(getContactDetails());
       dispatch(getInterest());
+      dispatch(getExperience());
     }
   }, [success]);
 

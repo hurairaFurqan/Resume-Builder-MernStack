@@ -58,7 +58,7 @@ const experienceScehma = mongoose.Schema({
         trim: true,
         maxlength: [500, "Max length exceeded"],
         minlength: [1, "min length exceeded"],
-      }
+      },
     },
   ],
 

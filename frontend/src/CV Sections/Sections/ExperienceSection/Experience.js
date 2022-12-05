@@ -8,7 +8,9 @@ const { v4: uuidv4 } = require("uuid");
 function Experience(props) {
   const { experienceData } = useSelector((state) => state.experience);
   const [popupInfo, setPopupInfo] = useState([]);
-  const [newExperience, setNewExperience] = useState(experienceData);
+  const [newExperience, setNewExperience] = useState(
+    experienceData.experience || []
+  );
   const [trigger, setTrigger] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,7 +50,7 @@ function Experience(props) {
             {newExperience.map((item) => {
               return (
                 <WorkExperienceItem
-                  key={item.id}
+                  key={item._id}
                   {...item}
                 ></WorkExperienceItem>
               );
