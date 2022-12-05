@@ -15,9 +15,8 @@ import { createExperience } from "../../../Store/experienceRequests";
 function WorkForm(props) {
   const dispatch = useDispatch();
 
-  const { id, jobTitle, companyName } = props;
+  const { jobTitle, companyName } = props;
   const [workFormData, setWorkFormData] = useState({
-    id: id,
     jobTitle: jobTitle || "",
     companyName: companyName || "",
     startMonth: props.startMonth || "",

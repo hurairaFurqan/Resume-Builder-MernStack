@@ -30,7 +30,6 @@ function PreviewForm(props) {
   const { educationData } = useSelector((state) => state.education);
 
   const { interestData } = useSelector((state) => state.interest);
-
   if (downloadResume === true) {
     const input = document.getElementById("divToPrint");
     html2canvas(input).then((canvas) => {
@@ -133,7 +132,7 @@ function PreviewForm(props) {
                 <div>
                   {experienceData.map((item) => {
                     return (
-                      <div key={item.id} className="mt-2">
+                      <div key={item._id} className="mt-2">
                         <h5>{item.companyName}</h5>
 
                         <div>
@@ -193,7 +192,7 @@ function PreviewForm(props) {
               <></>
             )}
 
-            {interestData.length ? (
+            {interestData ? (
               <div>
                 <h5>Interest</h5>
                 {`${interestData.description ? interestData.description : ""}`}

@@ -4,7 +4,7 @@ import { createExperience, getExperience } from "../Store/experienceRequests";
 export const Experience = createSlice({
   name: "experience",
   initialState: {
-    experienceData: {},
+    experienceData: [],
     loading: false,
     error: null,
     success: false,
